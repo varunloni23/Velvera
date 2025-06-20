@@ -1,0 +1,83 @@
+{% extends 'base.html' %}
+
+{% block title %}My Orders - Velvra{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-0">My Orders</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Orders</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-12">
+                <div class="card">
+                    <div class="card-body">
+                        {% if orders %}
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Order #</th>
+                                            <th>Date</th>
+                                            <th>Total</th>
+                                            <th>Status</th>
+                                            <th>Payment Status</th>
+                                            <th>Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {% for order in orders %}
+                                            <tr>
+                                                <td>#{{ order.order_id }}</td>
+                                                <td>{{ order.order_date.strftime('%Y-%m-%d') }}</td>
+                                                <td>${{ "%.2f"|format(order.total_amount) }}</td>
+                                                <td>
+                                                    <span class="badge bg-{{ 
+                                                        'success' if order.status == 'delivered' else 
+                                                        'danger' if order.status == 'cancelled' else 
+                                                        'primary' if order.status == 'shipped' else 
+                                                        'info' if order.status == 'processing' else 
+                                                        'warning' 
+                                                    }}">
+                                                        {{ order.status }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <span class="badge bg-{{ 
+                                                        'success' if order.payment_status == 'completed' else 
+                                                        'danger' if order.payment_status == 'failed' else 
+                                                        'info' if order.payment_status == 'refunded' else 
+                                                        'warning' 
+                                                    }}">
+                                                        {{ order.payment_status }}
+                                                    </span>
+                                                </td>
+                                                <td>
+                                                    <a href="{{ url_for('order_detail', order_id=order.order_id) }}" class="btn btn-sm btn-outline-primary">View</a>
+                                                </td>
+                                            </tr>
+                                        {% endfor %}
+                                    </tbody>
+                                </table>
+                            </div>
+                        {% else %}
+                            <div class="alert alert-info">
+                                You haven't placed any orders yet. <a href="{{ url_for('products') }}">Start shopping</a> to place an order.
+                            </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

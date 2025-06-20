@@ -1,0 +1,240 @@
+body {
+    font-family: 'Poppins', sans-serif;
+    background-color: #f8f9fa;
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    z-index: 100;
+    padding: 48px 0 0;
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .1);
+    background-color: #212529;
+}
+
+.sidebar .nav-link {
+    font-weight: 500;
+    color: #adb5bd;
+    padding: 0.75rem 1rem;
+    border-radius: 0;
+}
+
+.sidebar .nav-link:hover {
+    color: #fff;
+}
+
+.sidebar .nav-link.active {
+    color: #fff;
+    background-color: rgba(255, 255, 255, 0.1);
+}
+
+.sidebar .nav-link i {
+    margin-right: 0.5rem;
+    color: #adb5bd;
+}
+
+.sidebar .nav-link.active i {
+    color: #fff;
+}
+
+.navbar-brand {
+    padding-top: 0.75rem;
+    padding-bottom: 0.75rem;
+    font-size: 1.1rem;
+    background-color: rgba(0, 0, 0, .25);
+    box-shadow: inset -1px 0 0 rgba(0, 0, 0, .25);
+}
+
+.navbar .navbar-toggler {
+    top: 0.25rem;
+    right: 1rem;
+}
+
+.navbar .form-control {
+    padding: 0.75rem 1rem;
+    border-width: 0;
+    border-radius: 0;
+}
+
+.form-control-dark {
+    color: #fff;
+    background-color: rgba(255, 255, 255, .1);
+    border-color: rgba(255, 255, 255, .1);
+}
+
+.form-control-dark:focus {
+    border-color: transparent;
+    box-shadow: 0 0 0 3px rgba(255, 255, 255, .25);
+}
+
+.card {
+    border: none;
+    border-radius: 0.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+    margin-bottom: 1.5rem;
+}
+
+.card-header {
+    background-color: #fff;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+    font-weight: 600;
+}
+
+.btn {
+    border-radius: 0.25rem;
+    font-weight: 500;
+}
+
+.table {
+    vertical-align: middle;
+}
+
+.product-image-preview {
+    width: 80px;
+    height: 80px;
+    object-fit: cover;
+    border-radius: 0.25rem;
+}
+
+.order-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.status-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.status-processing {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+.status-shipped {
+    background-color: #dbeafe;
+    color: #1e40af;
+}
+
+.status-delivered {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.status-cancelled {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.payment-status {
+    padding: 0.25rem 0.5rem;
+    border-radius: 0.25rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.payment-pending {
+    background-color: #fef3c7;
+    color: #92400e;
+}
+
+.payment-completed {
+    background-color: #d1fae5;
+    color: #065f46;
+}
+
+.payment-failed {
+    background-color: #fee2e2;
+    color: #991b1b;
+}
+
+.payment-refunded {
+    background-color: #e0f2fe;
+    color: #0369a1;
+}
+
+/* Dashboard Stats */
+.stats-card {
+    border-radius: 0.5rem;
+    padding: 1.5rem;
+    margin-bottom: 1.5rem;
+    box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.05);
+}
+
+.stats-card-primary {
+    background-color: #3b82f6;
+    color: #fff;
+}
+
+.stats-card-success {
+    background-color: #10b981;
+    color: #fff;
+}
+
+.stats-card-warning {
+    background-color: #f59e0b;
+    color: #fff;
+}
+
+.stats-card-danger {
+    background-color: #ef4444;
+    color: #fff;
+}
+
+.stats-icon {
+    font-size: 2.5rem;
+    opacity: 0.8;
+}
+
+.stats-title {
+    font-size: 0.875rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 0.5rem;
+    opacity: 0.8;
+}
+
+.stats-value {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0;
+}
+
+/* Form Styles */
+.form-label {
+    font-weight: 500;
+}
+
+.form-control {
+    border-radius: 0.25rem;
+    padding: 0.75rem 1rem;
+    border: 1px solid #e5e7eb;
+}
+
+.form-control:focus {
+    border-color: #3b82f6;
+    box-shadow: 0 0 0 0.25rem rgba(59, 130, 246, 0.25);
+}
+
+/* Responsive */
+@media (max-width: 767.98px) {
+    .sidebar {
+        position: static;
+        height: auto;
+        padding-bottom: 0;
+    }
+    
+    .sidebar .nav-item {
+        display: inline-block;
+    }
+    
+    .sidebar .nav-link {
+        padding: 0.5rem;
+    }
+} 

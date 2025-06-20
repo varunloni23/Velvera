@@ -1,0 +1,108 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ product.name }} - Velvra{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('products') }}">Products</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('products', category=product.category_id) }}">{{ product.category_name }}</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ product.name }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6 mb-4">
+                <div class="product-image-container">
+                    {% if product.image_url %}
+                        <img src="{{ product.image_url }}" class="product-detail-img img-fluid" alt="{{ product.name }}">
+                    {% else %}
+                        <img src="https://via.placeholder.com/600x800?text=No+Image" class="product-detail-img img-fluid" alt="No Image">
+                    {% endif %}
+                </div>
+            </div>
+            <div class="col-md-6">
+                <h1 class="product-detail-title">{{ product.name }}</h1>
+                <p class="product-category">{{ product.category_name }}</p>
+                <p class="product-detail-price">${{ "%.2f"|format(product.price) }}</p>
+                <div class="product-detail-description mb-4">
+                    {{ product.description }}
+                </div>
+                
+                <form action="{{ url_for('add_to_cart') }}" method="post" class="mb-4">
+                    <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                    <div class="row">
+                        <div class="col-md-4 mb-3">
+                            <label for="quantity" class="form-label">Quantity</label>
+                            <input type="number" class="form-control" id="quantity" name="quantity" value="1" min="1" max="{{ product.stock }}">
+                        </div>
+                        <div class="col-md-8 mb-3 d-flex align-items-end">
+                            <p class="mb-0">
+                                {% if product.stock > 0 %}
+                                    <span class="badge bg-success">In Stock ({{ product.stock }} available)</span>
+                                {% else %}
+                                    <span class="badge bg-danger">Out of Stock</span>
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <button type="submit" class="btn btn-primary" {% if product.stock <= 0 %}disabled{% endif %}>
+                            <i class="fas fa-shopping-cart me-2"></i> Add to Cart
+                        </button>
+                    </div>
+                </form>
+                
+                <div class="product-meta">
+                    <p><strong>SKU:</strong> #{{ product.product_id }}</p>
+                    <p><strong>Category:</strong> <a href="{{ url_for('products', category=product.category_id) }}">{{ product.category_name }}</a></p>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Related Products -->
+        <div class="row mt-5">
+            <div class="col-12">
+                <h3 class="mb-4">You May Also Like</h3>
+            </div>
+        </div>
+        <div class="row">
+            {% for related in related_products %}
+                {% if related.product_id != product.product_id %}
+                    <div class="col-md-3 mb-4">
+                        <div class="card product-card h-100">
+                            <a href="{{ url_for('product_detail', product_id=related.product_id) }}">
+                                {% if related.image_url %}
+                                    <img src="{{ related.image_url }}" class="card-img-top" alt="{{ related.name }}">
+                                {% else %}
+                                    <img src="https://via.placeholder.com/300x400?text=No+Image" class="card-img-top" alt="No Image">
+                                {% endif %}
+                            </a>
+                            <div class="card-body">
+                                <p class="product-category">{{ related.category_name }}</p>
+                                <h5 class="product-title">
+                                    <a href="{{ url_for('product_detail', product_id=related.product_id) }}">{{ related.name }}</a>
+                                </h5>
+                                <p class="product-price">${{ "%.2f"|format(related.price) }}</p>
+                            </div>
+                            <div class="card-footer bg-white border-0 pt-0">
+                                <form action="{{ url_for('add_to_cart') }}" method="post">
+                                    <input type="hidden" name="product_id" value="{{ related.product_id }}">
+                                    <input type="hidden" name="quantity" value="1">
+                                    <button type="submit" class="btn btn-outline-primary w-100">Add to Cart</button>
+                                </form>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endblock %} 

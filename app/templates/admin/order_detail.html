@@ -1,0 +1,131 @@
+{% extends 'admin/base.html' %}
+
+{% block title %}Order #{{ order.order_id }} - Velvra Admin{% endblock %}
+
+{% block page_title %}Order #{{ order.order_id }}{% endblock %}
+
+{% block page_actions %}
+<a href="{{ url_for('admin_orders') }}" class="btn btn-outline-primary">
+    <i class="fas fa-arrow-left me-2"></i> Back to Orders
+</a>
+{% endblock %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Order Items</h5>
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Product</th>
+                                <th>Quantity</th>
+                                <th class="text-end">Price</th>
+                                <th class="text-end">Subtotal</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for item in items %}
+                                <tr>
+                                    <td>
+                                        <div class="d-flex align-items-center">
+                                            {% if item.image_url %}
+                                                <img src="{{ item.image_url }}" alt="{{ item.name }}" class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                            {% else %}
+                                                <img src="https://via.placeholder.com/50x50?text=No+Image" alt="No Image" class="me-3">
+                                            {% endif %}
+                                            <div>{{ item.name }}</div>
+                                        </div>
+                                    </td>
+                                    <td>{{ item.quantity }}</td>
+                                    <td class="text-end">${{ "%.2f"|format(item.price) }}</td>
+                                    <td class="text-end">${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                <td class="text-end"><strong>${{ "%.2f"|format(order.total_amount) }}</strong></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Customer Information</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>Username:</strong> {{ order.username }}</p>
+                        <p><strong>Email:</strong> {{ order.email }}</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Order Date:</strong> {{ order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+                    </div>
+                </div>
+                <div class="mt-3">
+                    <p><strong>Shipping Address:</strong></p>
+                    <p>{{ order.shipping_address }}</p>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-4">
+        <div class="card mb-4">
+            <div class="card-header">
+                <h5 class="mb-0">Order Status</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('admin_update_order_status', order_id=order.order_id) }}" method="post">
+                    <div class="mb-3">
+                        <label for="status" class="form-label">Status</label>
+                        <select class="form-select" id="status" name="status">
+                            <option value="pending" {% if order.status == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="processing" {% if order.status == 'processing' %}selected{% endif %}>Processing</option>
+                            <option value="shipped" {% if order.status == 'shipped' %}selected{% endif %}>Shipped</option>
+                            <option value="delivered" {% if order.status == 'delivered' %}selected{% endif %}>Delivered</option>
+                            <option value="cancelled" {% if order.status == 'cancelled' %}selected{% endif %}>Cancelled</option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Update Status</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+        
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0">Payment Status</h5>
+            </div>
+            <div class="card-body">
+                <form action="{{ url_for('admin_update_payment_status', order_id=order.order_id) }}" method="post">
+                    <div class="mb-3">
+                        <label for="payment_status" class="form-label">Payment Status</label>
+                        <select class="form-select" id="payment_status" name="payment_status">
+                            <option value="pending" {% if order.payment_status == 'pending' %}selected{% endif %}>Pending</option>
+                            <option value="completed" {% if order.payment_status == 'completed' %}selected{% endif %}>Completed</option>
+                            <option value="failed" {% if order.payment_status == 'failed' %}selected{% endif %}>Failed</option>
+                            <option value="refunded" {% if order.payment_status == 'refunded' %}selected{% endif %}>Refunded</option>
+                        </select>
+                    </div>
+                    <div class="d-grid">
+                        <button type="submit" class="btn btn-primary">Update Payment Status</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %} 

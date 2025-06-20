@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+
+{% block title %}Shopping Cart - Velvra{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-0">Shopping Cart</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Cart</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        {% if cart_items %}
+            <div class="row">
+                <div class="col-md-8">
+                    {% for item in cart_items %}
+                        <div class="card mb-3 cart-item">
+                            <div class="row g-0">
+                                <div class="col-md-2">
+                                    {% if item.image_url %}
+                                        <img src="{{ item.image_url }}" class="cart-item-img" alt="{{ item.name }}">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/100x100?text=No+Image" class="cart-item-img" alt="No Image">
+                                    {% endif %}
+                                </div>
+                                <div class="col-md-10">
+                                    <div class="card-body">
+                                        <div class="row">
+                                            <div class="col-md-8">
+                                                <h5 class="cart-item-title">{{ item.name }}</h5>
+                                                <p class="cart-item-price">${{ "%.2f"|format(item.price) }}</p>
+                                            </div>
+                                            <div class="col-md-4 text-end">
+                                                <div class="input-group mb-3">
+                                                    <input type="number" class="form-control cart-quantity-input" value="{{ item.quantity }}" min="1" data-cart-id="{{ item.cart_id }}">
+                                                    <form action="{{ url_for('remove_from_cart', cart_id=item.cart_id) }}" method="post">
+                                                        <button type="submit" class="btn btn-outline-danger ms-2">
+                                                            <i class="fas fa-trash"></i>
+                                                        </button>
+                                                    </form>
+                                                </div>
+                                                <p class="text-end mb-0">Subtotal: <strong>${{ "%.2f"|format(item.subtotal) }}</strong></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+                <div class="col-md-4">
+                    <div class="card cart-summary">
+                        <div class="card-body">
+                            <h5 class="card-title mb-4">Order Summary</h5>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Subtotal:</span>
+                                <span>${{ "%.2f"|format(total) }}</span>
+                            </div>
+                            <div class="d-flex justify-content-between mb-2">
+                                <span>Shipping:</span>
+                                <span>Free</span>
+                            </div>
+                            <hr>
+                            <div class="d-flex justify-content-between mb-4">
+                                <span class="fw-bold">Total:</span>
+                                <span class="fw-bold">${{ "%.2f"|format(total) }}</span>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <a href="{{ url_for('checkout') }}" class="btn btn-primary">Proceed to Checkout</a>
+                                <a href="{{ url_for('products') }}" class="btn btn-outline-primary">Continue Shopping</a>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        {% else %}
+            <div class="row">
+                <div class="col-12">
+                    <div class="alert alert-info">
+                        Your cart is empty. <a href="{{ url_for('products') }}">Continue shopping</a> to add items to your cart.
+                    </div>
+                </div>
+            </div>
+        {% endif %}
+    </div>
+</section>
+{% endblock %} 

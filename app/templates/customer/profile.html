@@ -1,0 +1,112 @@
+{% extends 'base.html' %}
+
+{% block title %}My Profile - Velvra{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-0">My Profile</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">My Profile</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-4 mb-4">
+                <div class="card">
+                    <div class="card-body text-center p-4">
+                        <div class="mb-3">
+                            <img src="https://via.placeholder.com/150" alt="Profile" class="rounded-circle img-fluid" style="width: 150px; height: 150px; object-fit: cover;">
+                        </div>
+                        <h4>{{ user.first_name }} {{ user.last_name }}</h4>
+                        <p class="text-muted">{{ user.username }}</p>
+                    </div>
+                </div>
+                
+                <div class="card mt-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Quick Links</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item">
+                                <a href="{{ url_for('orders') }}" class="text-decoration-none">
+                                    <i class="fas fa-shopping-bag me-2"></i> My Orders
+                                </a>
+                            </li>
+                            <li class="list-group-item">
+                                <a href="{{ url_for('cart') }}" class="text-decoration-none">
+                                    <i class="fas fa-shopping-cart me-2"></i> My Cart
+                                </a>
+                            </li>
+                            {% if session.get('is_admin') %}
+                                <li class="list-group-item">
+                                    <a href="{{ url_for('admin_dashboard') }}" class="text-decoration-none">
+                                        <i class="fas fa-tachometer-alt me-2"></i> Admin Dashboard
+                                    </a>
+                                </li>
+                            {% endif %}
+                            <li class="list-group-item">
+                                <a href="{{ url_for('logout') }}" class="text-decoration-none text-danger">
+                                    <i class="fas fa-sign-out-alt me-2"></i> Logout
+                                </a>
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-8">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Personal Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <form>
+                            <div class="row">
+                                <div class="col-md-6 mb-3">
+                                    <label for="first_name" class="form-label">First Name</label>
+                                    <input type="text" class="form-control" id="first_name" value="{{ user.first_name }}" disabled>
+                                </div>
+                                <div class="col-md-6 mb-3">
+                                    <label for="last_name" class="form-label">Last Name</label>
+                                    <input type="text" class="form-control" id="last_name" value="{{ user.last_name }}" disabled>
+                                </div>
+                            </div>
+                            <div class="mb-3">
+                                <label for="username" class="form-label">Username</label>
+                                <input type="text" class="form-control" id="username" value="{{ user.username }}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="email" class="form-label">Email</label>
+                                <input type="email" class="form-control" id="email" value="{{ user.email }}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="address" class="form-label">Address</label>
+                                <textarea class="form-control" id="address" rows="3" disabled>{{ user.address }}</textarea>
+                            </div>
+                            <div class="mb-3">
+                                <label for="phone" class="form-label">Phone</label>
+                                <input type="tel" class="form-control" id="phone" value="{{ user.phone }}" disabled>
+                            </div>
+                            <div class="mb-3">
+                                <label for="created_at" class="form-label">Member Since</label>
+                                <input type="text" class="form-control" id="created_at" value="{{ user.created_at.strftime('%Y-%m-%d') }}" disabled>
+                            </div>
+                            <div class="d-grid gap-2">
+                                <button type="button" class="btn btn-primary" disabled>Edit Profile (Coming Soon)</button>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+
+{% block title %}Order #{{ order.order_id }} - Velvra{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-0">Order #{{ order.order_id }}</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="breadcrumb-item"><a href="{{ url_for('orders') }}">My Orders</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Order #{{ order.order_id }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-md-8">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order Items</h5>
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Quantity</th>
+                                        <th class="text-end">Price</th>
+                                        <th class="text-end">Subtotal</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% for item in items %}
+                                        <tr>
+                                            <td>
+                                                <div class="d-flex align-items-center">
+                                                    {% if item.image_url %}
+                                                        <img src="{{ item.image_url }}" alt="{{ item.name }}" class="me-3" style="width: 50px; height: 50px; object-fit: cover;">
+                                                    {% else %}
+                                                        <img src="https://via.placeholder.com/50x50?text=No+Image" alt="No Image" class="me-3">
+                                                    {% endif %}
+                                                    <div>{{ item.name }}</div>
+                                                </div>
+                                            </td>
+                                            <td>{{ item.quantity }}</td>
+                                            <td class="text-end">${{ "%.2f"|format(item.price) }}</td>
+                                            <td class="text-end">${{ "%.2f"|format(item.price * item.quantity) }}</td>
+                                        </tr>
+                                    {% endfor %}
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end"><strong>Total:</strong></td>
+                                        <td class="text-end"><strong>${{ "%.2f"|format(order.total_amount) }}</strong></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-md-4">
+                <div class="card mb-4">
+                    <div class="card-header">
+                        <h5 class="mb-0">Order Information</h5>
+                    </div>
+                    <div class="card-body">
+                        <p><strong>Order Date:</strong> {{ order.order_date.strftime('%Y-%m-%d %H:%M:%S') }}</p>
+                        <p>
+                            <strong>Status:</strong> 
+                            <span class="badge bg-{{ 
+                                'success' if order.status == 'delivered' else 
+                                'danger' if order.status == 'cancelled' else 
+                                'primary' if order.status == 'shipped' else 
+                                'info' if order.status == 'processing' else 
+                                'warning' 
+                            }}">
+                                {{ order.status }}
+                            </span>
+                        </p>
+                        <p>
+                            <strong>Payment Status:</strong> 
+                            <span class="badge bg-{{ 
+                                'success' if order.payment_status == 'completed' else 
+                                'danger' if order.payment_status == 'failed' else 
+                                'info' if order.payment_status == 'refunded' else 
+                                'warning' 
+                            }}">
+                                {{ order.payment_status }}
+                            </span>
+                        </p>
+                        <p><strong>Payment Method:</strong> {{ order.payment_method }}</p>
+                    </div>
+                </div>
+                
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Shipping Address</h5>
+                    </div>
+                    <div class="card-body">
+                        <p>{{ order.shipping_address }}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <div class="row mt-4">
+            <div class="col-12 text-center">
+                <a href="{{ url_for('orders') }}" class="btn btn-outline-primary">Back to Orders</a>
+                <a href="{{ url_for('products') }}" class="btn btn-primary ms-2">Continue Shopping</a>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

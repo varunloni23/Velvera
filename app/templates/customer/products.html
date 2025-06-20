@@ -1,0 +1,85 @@
+{% extends 'base.html' %}
+
+{% block title %}{{ category_name }} - Velvra{% endblock %}
+
+{% block content %}
+<section class="py-5">
+    <div class="container">
+        <div class="row mb-4">
+            <div class="col-12">
+                <h1 class="mb-0">{{ category_name }}</h1>
+                <nav aria-label="breadcrumb">
+                    <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{{ url_for('home') }}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">{{ category_name }}</li>
+                    </ol>
+                </nav>
+            </div>
+        </div>
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 mb-4">
+                <div class="card">
+                    <div class="card-header">
+                        <h5 class="mb-0">Categories</h5>
+                    </div>
+                    <div class="card-body">
+                        <ul class="list-group list-group-flush">
+                            <li class="list-group-item {% if not current_category %}active{% endif %}">
+                                <a href="{{ url_for('products') }}" class="text-decoration-none {% if not current_category %}text-white{% endif %}">All Products</a>
+                            </li>
+                            {% for category in categories %}
+                                <li class="list-group-item {% if current_category == category.category_id %}active{% endif %}">
+                                    <a href="{{ url_for('products', category=category.category_id) }}" class="text-decoration-none {% if current_category == category.category_id %}text-white{% endif %}">{{ category.name }}</a>
+                                </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Products -->
+            <div class="col-md-9">
+                <div class="row">
+                    {% for product in products %}
+                        <div class="col-md-4 mb-4">
+                            <div class="card product-card h-100">
+                                <a href="{{ url_for('product_detail', product_id=product.product_id) }}">
+                                    {% if product.image_url %}
+                                        <img src="{{ product.image_url }}" class="card-img-top" alt="{{ product.name }}">
+                                    {% else %}
+                                        <img src="https://via.placeholder.com/300x400?text=No+Image" class="card-img-top" alt="No Image">
+                                    {% endif %}
+                                </a>
+                                <div class="card-body">
+                                    <p class="product-category">{{ product.category_name }}</p>
+                                    <h5 class="product-title">
+                                        <a href="{{ url_for('product_detail', product_id=product.product_id) }}">{{ product.name }}</a>
+                                    </h5>
+                                    <p class="product-price">${{ "%.2f"|format(product.price) }}</p>
+                                </div>
+                                <div class="card-footer bg-white border-0 pt-0">
+                                    <form action="{{ url_for('add_to_cart') }}" method="post">
+                                        <input type="hidden" name="product_id" value="{{ product.product_id }}">
+                                        <input type="hidden" name="quantity" value="1">
+                                        <button type="submit" class="btn btn-outline-primary w-100">Add to Cart</button>
+                                    </form>
+                                </div>
+                            </div>
+                        </div>
+                        {% if loop.index % 3 == 0 and not loop.last %}
+                            </div><div class="row">
+                        {% endif %}
+                    {% else %}
+                        <div class="col-12">
+                            <div class="alert alert-info">
+                                No products found in this category.
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %} 

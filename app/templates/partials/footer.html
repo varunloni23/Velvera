@@ -1,0 +1,50 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-4 mb-4">
+            <h5 class="text-uppercase mb-4">Velvra</h5>
+            <p class="text-muted">Discover luxury clothing that defines elegance and style. Our curated collection offers premium quality and timeless designs.</p>
+            <div class="social-icons mt-4">
+                <a href="#" class="text-decoration-none me-3"><i class="fab fa-facebook-f"></i></a>
+                <a href="#" class="text-decoration-none me-3"><i class="fab fa-instagram"></i></a>
+                <a href="#" class="text-decoration-none me-3"><i class="fab fa-twitter"></i></a>
+                <a href="#" class="text-decoration-none"><i class="fab fa-pinterest-p"></i></a>
+            </div>
+        </div>
+        <div class="col-md-2 mb-4">
+            <h5 class="text-uppercase mb-4">Shop</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2"><a href="{{ url_for('products') }}" class="text-decoration-none text-muted">All Products</a></li>
+                <li class="mb-2"><a href="{{ url_for('products', category=1) }}" class="text-decoration-none text-muted">Men</a></li>
+                <li class="mb-2"><a href="{{ url_for('products', category=2) }}" class="text-decoration-none text-muted">Women</a></li>
+                <li class="mb-2"><a href="{{ url_for('products', category=3) }}" class="text-decoration-none text-muted">Accessories</a></li>
+            </ul>
+        </div>
+        <div class="col-md-2 mb-4">
+            <h5 class="text-uppercase mb-4">Help</h5>
+            <ul class="list-unstyled">
+                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">FAQ</a></li>
+                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Shipping</a></li>
+                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Returns</a></li>
+                <li class="mb-2"><a href="#" class="text-decoration-none text-muted">Contact Us</a></li>
+            </ul>
+        </div>
+        <div class="col-md-4 mb-4">
+            <h5 class="text-uppercase mb-4">Newsletter</h5>
+            <p class="text-muted">Subscribe to receive updates, access to exclusive deals, and more.</p>
+            <form class="mt-3">
+                <div class="input-group mb-3">
+                    <input type="email" class="form-control" placeholder="Your email" aria-label="Your email" aria-describedby="subscribe-btn">
+                    <button class="btn btn-dark" type="button" id="subscribe-btn">Subscribe</button>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="row mt-4 pt-4 border-top">
+        <div class="col-md-6 text-center text-md-start">
+            <p class="text-muted mb-0">&copy; 2023 Velvra. All rights reserved.</p>
+        </div>
+        <div class="col-md-6 text-center text-md-end">
+            <img src="https://via.placeholder.com/250x30?text=Payment+Methods" alt="Payment Methods" class="img-fluid" style="max-height: 30px;">
+        </div>
+    </div>
+</div> 
